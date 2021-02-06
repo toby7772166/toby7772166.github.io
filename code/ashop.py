@@ -3,7 +3,7 @@ from adb import DB
 
 class TestCenter():
     def __init__(self):
-        self.menu_title = '測驗中心'
+        self.menu_title = 'bling bling ⭐⭐⭐⭐⭐五星級米其林水果店'
         self.menu = {
             'a':'單字建檔查詢',
             'b':'選擇題型設定',
