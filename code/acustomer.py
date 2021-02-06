@@ -3,7 +3,7 @@ from adb import DB
 
 class Examinee():
     def __init__(self):
-        self.menu_title = '參測考生'
+        self.menu_title = '消費者'
         self.account = ''
         self.menu = {
             'a':'登入．註冊',
