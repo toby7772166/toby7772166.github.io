@@ -3,14 +3,14 @@ from adb import DB
 
 class Customer():
     def __init__(self):
-        self.menu_title = '消費者'
+        self.menu_title = '歡迎來到bling bling ⭐⭐⭐⭐⭐五星級米其林水果店'
         self.account = ''
         self.menu = {
             'a':'登入．註冊',
             'b':'購買水果',
             'c':'銷售水果',
             'd':'查詢訂單',
-            'e':'個人資料修改',
+            'e':'修改顧客資料',
             'f':'離開',
         }
         self.menu_func = {
@@ -191,16 +191,16 @@ class Customer():
 
 # entry point
 with DB() as db:
-    aexaminee = Examinee()
+    acustomer = Customer()
     while True:
-        func_id, func_name = aexaminee.show_menu()
+        func_id, func_name = acustomer.show_menu()
         if func_id == 'q':
             break
         elif func_id == '':
             print(func_name)
         else:
-            if aexaminee.account == '':
+            if acustomer.account == '':
                 func_id = 'a'
                 print('請先登入或註冊')
-            aexaminee.menu_func[func_id](db, func_name)
+            acustomer.menu_func[func_id](db, func_name)
         print()

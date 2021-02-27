@@ -31,7 +31,7 @@ class DB():
         return True
 
     def count_words(self):
-        """ 計算單字數
+        """ 計算水果數
         """
         self.cur.execute("SELECT COUNT(*) FROM WORDS")
         return self.cur.fetchone()[0]
@@ -43,7 +43,7 @@ class DB():
         return self.cur.fetchone()[0] + 1
 
     def list_all_words(self):
-        """ 單字列表
+        """ 水果列表
         """
         self.cur.execute("SELECT * FROM WORDS")
         all_rows = self.cur.fetchall()
@@ -55,7 +55,7 @@ class DB():
         print()
 
     def generate_dict_words(self):
-        """ 設定單字字典
+        """ 設定水果訂單
         """
         self.cur.execute("SELECT WORD, DEFINITIONS FROM WORDS")
         all_words = self.cur.fetchall()
@@ -63,7 +63,7 @@ class DB():
         return list_words
 
     def insert_or_update_word(self, arg_word, arg_def):
-        """ 增修單字
+        """ 增修水果
         """
         words_max_id = self.get_max_id('WORDS')
         self.cur.execute("SELECT COUNT(*) FROM WORDS WHERE WORD=?", (arg_word,))
@@ -76,7 +76,7 @@ class DB():
         return self.conn.commit()
 
     def check_word_out(self, arg_word):
-        """ 查詢單字
+        """ 查詢訂單
         """
         arg_word = '%'+arg_word+'%'
         self.cur.execute("SELECT * FROM WORDS WHERE WORD LIKE ?", (arg_word,))
@@ -88,13 +88,13 @@ class DB():
             print()
 
     def delete_word(self, arg_word):
-        """ 刪除單字
+        """ 刪除訂單
         """         
         self.cur.execute("DELETE FROM WORDS WHERE WORD=?", (arg_word,))
         return self.conn.commit()
 
     def get_settings(self, arg_type, arg_opt):
-        """ 擷取題型設定
+        """ 擷取訂單標準
         """
         self.cur.execute("SELECT OPTION, NUM_OF_QUESTIONS FROM SETTINGS WHERE TYPE=?", (arg_type,))
         settings = self.cur.fetchone()
@@ -103,16 +103,16 @@ class DB():
             return settings
 
     def update_settings(self, arg_type, arg_qnum, arg_opt):
-        """ 更新題型設定
+        """ 更新訂單標準
         """
         self.cur.execute("UPDATE SETTINGS SET NUM_OF_QUESTIONS=?, OPTION=? WHERE TYPE=?", 
             (arg_qnum, arg_opt, arg_type))
         return self.conn.commit()
 
     def list_all_examinees(self):
-        """ 考生列表
+        """ 顧客列表
         """
-        self.cur.execute("SELECT * FROM EXAMINEES")
+        self.cur.execute("SELECT * FROM CUSTOMER")
         all_rows = self.cur.fetchall()
         print('{:3} {:8} {:18} {:4} {:6}'.format('ID', '帳號', '姓名', '性別', '出生年'))
         print('-'*50)
@@ -121,16 +121,16 @@ class DB():
         print()
 
     def check_if_examinee_existed(self, arg_account):
-        """ 檢查考生是否註冊
+        """ 檢查顧客是否註冊
         """
-        self.cur.execute("SELECT COUNT(*) FROM EXAMINEES WHERE ACCOUNT=?", (arg_account,))
+        self.cur.execute("SELECT COUNT(*) FROM CUSTOMER WHERE ACCOUNT=?", (arg_account,))
         if self.cur.fetchone()[0] == 1:
             return True
         else:
             return False
 
     def insert_or_update_examinee(self, account_id, action):
-        """ 增修考生
+        """ 增修顧客
         """
         data_ok = True
         full_name = input('姓名: ')
@@ -152,11 +152,11 @@ class DB():
         # 資料無誤，准許註冊
         if data_ok:
             if action == 'insert':
-                examinees_max_id = self.get_max_id('EXAMINEES')
-                self.cur.execute("INSERT INTO EXAMINEES VALUES (?, ?, ?, ?, ?)", 
+                examinees_max_id = self.get_max_id('CUSTOMER')
+                self.cur.execute("INSERT INTO CUSTOMER VALUES (?, ?, ?, ?, ?)", 
                     (examinees_max_id, account_id, full_name, gender, birth_year))
             elif action == 'update':
-                self.cur.execute("UPDATE EXAMINEES SET NAME=?, GENDER=?, BIRTH_YEAR=? WHERE ACCOUNT=?", 
+                self.cur.execute("UPDATE CUSTOMER SET NAME=?, GENDER=?, BIRTH_YEAR=? WHERE ACCOUNT=?", 
                     (full_name, gender, birth_year, account_id))
             self.conn.commit()
             return True
@@ -164,9 +164,9 @@ class DB():
             return False
                         
     def print_examinee_info(self, account):
-        """ 查詢考生資訊
+        """ 查詢顧客資訊
         """
-        self.cur.execute("SELECT * FROM EXAMINEES WHERE ACCOUNT=?", (account,))
+        self.cur.execute("SELECT * FROM CUSTOMER WHERE ACCOUNT=?", (account,))
         examinee = self.cur.fetchone()
         print('編號: {}  帳號: {}\n姓名: {}\n性別: {}\n出生年: {}'.format(*examinee))
 
@@ -186,7 +186,7 @@ class DB():
         print('{:3} {:10} {:3} {:4} {:10}'.format(*row))
 
     def list_scores_by_account(self, account):
-        """ 個人成績查詢
+        """ 個人訂單查詢
         """
         case_type = self.sql_case_type()
         account_like = ''.join(('%', account, '%'))
@@ -198,21 +198,21 @@ class DB():
             for row in all_rows:
                 self.show_one_score(row)
         else:
-            print(account, '查無任何成績')
+            print(account, '查無任何訂單')
 
     def score_summary(self):
-        """ 測驗成績統計
+        """ 訂單金額統計
         """
         case_type = self.sql_case_type()
 
-        print(self.title_side, '測驗人數及平均分數', self.title_side)
+        print(self.title_side, '購買人數及平均金額', self.title_side)
         sql = "SELECT {}, COUNT(*), AVG(SCORE) FROM SCORES GROUP BY TYPE"
         self.cur.execute(sql.format(case_type))
         all_rows = self.cur.fetchall()
         if len(all_rows):
             for row in all_rows:
                 print('{:3} {:4} {:6}'.format(*row))
-        print(self.title_side, '成績列表依日期降冪', self.title_side)
+        print(self.title_side, '訂單列表依日期降冪', self.title_side)
         sql = "SELECT ID, ACCOUNT, {}, SCORE, DATE_TIME FROM SCORES ORDER BY DATE_TIME DESC"
         self.cur.execute(sql.format(case_type))
         all_rows = self.cur.fetchall()

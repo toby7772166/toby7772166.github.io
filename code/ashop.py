@@ -1,14 +1,14 @@
-# atestcenter.py
+# ashop.py
 from adb import DB
 
-class TestCenter():
+class Shop):
     def __init__(self):
         self.menu_title = 'bling bling ⭐⭐⭐⭐⭐五星級米其林水果店'
         self.menu = {
             'a':'訂單建檔查詢',
-            'b':'選擇題型設定',
-            'c':'填充題型設定',
-            'd':'參測考生列表',
+            'b':'訂單類型設定',
+            'c':'購買數量設定',
+            'd':'購買顧客列表',
             'e':'測驗成績統計',
             'f':'個人成績查詢',
             'q':'離開',
@@ -39,7 +39,7 @@ class TestCenter():
             return '', '無此功能！'
 
     def create_words(self, db, func_title):
-        """ 單字建檔查詢
+        """ 訂單建檔查詢
         """
         while True:
             subopt = input('1.增修 2.查詢 3.刪除 4.列表 exit.離開: ')
@@ -68,7 +68,7 @@ class TestCenter():
         return func_title
 
     def set_multiple_choice(self, db, func_title):
-        """ 選擇題型設定
+        """訂單類型設定
         """
         set_type = 'multiple_choice'
         while True:
@@ -85,7 +85,7 @@ class TestCenter():
         return func_title
 
     def set_fill_in_the_blank(self, db, func_title):
-        """ 填充題型設定
+        """ 購買數量設定
         """
         set_type = 'fill_in_the_blank'
         while True:
@@ -102,13 +102,13 @@ class TestCenter():
         return func_title
 
     def examinees(self, db, func_title):
-        """ 參測考生列表
+        """ 購買顧客列表
         """
         db.list_all_examinees()
         return func_title
 
     def summary(self, db, func_title):
-        """ 測驗成績統計
+        """ 統計
         """
         db.score_summary()
         return func_title
