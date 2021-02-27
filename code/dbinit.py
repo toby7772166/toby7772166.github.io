@@ -1,11 +1,11 @@
 import os
 try:
-    os.unlink('toeic.db')
+    os.unlink('fruit.db')
 except:
     print('首次建檔')
 
 import sqlite3
-conn = sqlite3.connect('toeic.db')
+conn = sqlite3.connect('fruit.db')
 cur = conn.cursor()
 
 def show_all_rows(all_rows):

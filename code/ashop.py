@@ -5,7 +5,7 @@ class TestCenter():
     def __init__(self):
         self.menu_title = 'bling bling ⭐⭐⭐⭐⭐五星級米其林水果店'
         self.menu = {
-            'a':'單字建檔查詢',
+            'a':'訂單建檔查詢',
             'b':'選擇題型設定',
             'c':'填充題型設定',
             'd':'參測考生列表',

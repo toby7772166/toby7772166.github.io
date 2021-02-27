@@ -1,18 +1,17 @@
-# aexaminee.py
+# acustomer.py
 from adb import DB
 
-class Examinee():
+class Customer():
     def __init__(self):
         self.menu_title = '消費者'
         self.account = ''
         self.menu = {
             'a':'登入．註冊',
-            'b':'選擇題測驗',
-            'c':'填充題測驗',
-            'd':'個人成績查詢',
+            'b':'購買水果',
+            'c':'銷售水果',
+            'd':'查詢訂單',
             'e':'個人資料修改',
-            'f':'亂數播放單字',
-            'q':'離開',
+            'f':'離開',
         }
         self.menu_func = {
             'a': lambda db, ft: self.login_or_signup(db, ft),
@@ -51,7 +50,7 @@ class Examinee():
             db.print_examinee_info(self.account)
         else:
             if db.insert_or_update_examinee(account_input, 'insert'):
-                print('註冊成功，可立即參加測驗')
+                print('註冊成功，可立即購買水果')
 
     def print_definitions(self, word_def):
         for item in word_def.split('||'):

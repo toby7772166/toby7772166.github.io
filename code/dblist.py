@@ -1,5 +1,5 @@
 import sqlite3
-conn = sqlite3.connect('toeic.db')
+conn = sqlite3.connect('fruit.db')
 cur = conn.cursor()
 
 def show_all_rows(columns, all_rows):
